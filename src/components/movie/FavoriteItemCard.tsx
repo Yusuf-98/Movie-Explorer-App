@@ -1,5 +1,5 @@
 import type { FavoriteItemProps } from '@/types/movie';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import PlayIcon from '../../assets/icons/play.png';
 import { IMAGE_SIZES } from '@/lib/constants';
@@ -18,7 +18,7 @@ export default function FavoriteItem({
   const posterUrl = getImageUrl(movie.poster_path, IMAGE_SIZES.poster.medium);
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, x: -20, scale: 0.97 }}
@@ -116,6 +116,6 @@ export default function FavoriteItem({
           </Button>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Heart, Star } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useMovieStore } from '@/store/movieStore';
 import { getImageUrl } from '@/lib/utils';
 import { IMAGE_SIZES } from '@/lib/constants';
@@ -14,7 +14,7 @@ export function MovieCard({ movie, index = 0, showRank = false, rank }: MovieCar
   const posterUrl = getImageUrl(movie.poster_path, IMAGE_SIZES.poster.medium);
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.5) }}
@@ -88,6 +88,6 @@ export function MovieCard({ movie, index = 0, showRank = false, rank }: MovieCar
           className={cn('transition-colors', fav ? 'fill-white text-white' : 'text-white')}
         />
       </button>
-    </motion.div>
+    </m.div>
   );
 }

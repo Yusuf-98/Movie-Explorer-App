@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import type { ToastProps } from '@/types/movie';
 import CheckIcon from '../../assets/icons/check.png';
@@ -14,7 +14,7 @@ export function Toast({ message, visible, onClose, duration = 3000 }: ToastProps
   return (
     <AnimatePresence>
       {visible && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -30,7 +30,7 @@ export function Toast({ message, visible, onClose, duration = 3000 }: ToastProps
           >
             <X size={16} />
           </button>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

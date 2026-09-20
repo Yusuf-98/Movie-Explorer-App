@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useMovieStore } from '@/store/movieStore';
 import { getImageUrl } from '@/lib/utils';
 import { IMAGE_SIZES } from '@/lib/constants';
@@ -15,7 +15,7 @@ export default function SearchResultItem({ movie, index, onWatchTrailer }: Searc
   const posterUrl = getImageUrl(movie.poster_path, IMAGE_SIZES.poster.medium);
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
@@ -95,6 +95,6 @@ export default function SearchResultItem({ movie, index, onWatchTrailer }: Searc
           </Button>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

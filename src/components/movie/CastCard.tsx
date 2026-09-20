@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { getImageUrl } from '@/lib/utils';
 import { IMAGE_SIZES } from '@/lib/constants';
 import type { Cast } from '@/types/movie';
@@ -7,7 +7,7 @@ function CastCard({ member, index }: { member: Cast; index: number }) {
   const profileUrl = getImageUrl(member.profile_path, IMAGE_SIZES.profile.medium);
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, x: -10 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
@@ -35,7 +35,7 @@ function CastCard({ member, index }: { member: Cast; index: number }) {
         <p className="text-size-sm md:text-size-md font-semibold text-neutral-25">{member.name}</p>
         <p className="text-size-sm md:text-size-md text-neutral-400">{member.character}</p>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 

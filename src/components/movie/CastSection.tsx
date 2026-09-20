@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import CastCard from './CastCard';
 import type { CastSectionProps } from '@/types/movie';
 
@@ -8,7 +8,7 @@ export function CastSection({ cast }: CastSectionProps) {
   if (!displayCast.length) return null;
 
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -25,6 +25,6 @@ export function CastSection({ cast }: CastSectionProps) {
           <CastCard key={member.credit_id ?? member.id} member={member} index={i} />
         ))}
       </div>
-    </motion.section>
+    </m.section>
   );
 }

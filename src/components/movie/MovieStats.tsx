@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import StarIcon from '../../assets/icons/star-yellow.png';
 import VideoIcon from '../../assets/icons/video.png';
 import HappyIcon from '../../assets/icons/emoji-happy.png';
@@ -37,7 +37,7 @@ export function MovieStats({ movie }: MovieStatsProps) {
   return (
     <div className="flex flex-row rounded-2xl justify-between gap-lg md:gap-2xl">
       {stats.map((stat, i) => (
-        <motion.div
+        <m.div
           key={stat.label}
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -54,7 +54,7 @@ export function MovieStats({ movie }: MovieStatsProps) {
           {stat.icon}
           <span className="text-center text-white/50 text-sm">{stat.label}</span>
           <span className={stat.valueClass}>{stat.value}</span>
-        </motion.div>
+        </m.div>
       ))}
     </div>
   );

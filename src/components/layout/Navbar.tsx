@@ -22,7 +22,7 @@ import { Input } from '../ui/input';
 import { scrollToTop } from '@/lib/scrollToTop';
 import Hamburger from '../../assets/icons/hamburger-menu.png';
 import CloseIcon from '../../assets/icons/x-icon.png';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { useModalA11y } from '@/hooks/useModalA11y';
 
 export function Navbar() {
@@ -112,7 +112,7 @@ export function Navbar() {
         <AnimatePresence mode="wait">
           {isSearchOpen ? (
             /* ── MOBILE SEARCH BAR ── */
-            <motion.div
+            <m.div
               key="search-bar"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -168,10 +168,10 @@ export function Navbar() {
                   </p>
                 )}
               </form>
-            </motion.div>
+            </m.div>
           ) : (
             /* ── NORMAL NAVBAR ── */
-            <motion.div
+            <m.div
               key="navbar"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -282,7 +282,7 @@ export function Navbar() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </header>
@@ -291,7 +291,7 @@ export function Navbar() {
       {createPortal(
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.div
+            <m.div
               ref={menuRef}
               role="dialog"
               aria-modal="true"
@@ -352,7 +352,7 @@ export function Navbar() {
                   )}
                 </Link>
               </nav>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>,
         document.body

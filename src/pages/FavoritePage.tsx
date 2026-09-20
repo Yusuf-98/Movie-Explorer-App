@@ -1,13 +1,13 @@
 import { useState, useCallback } from 'react';
 import { useMovieStore } from '@/store/movieStore';
-import { motion, AnimatePresence } from 'framer-motion';
+import { LazyMotion, domMax, m, AnimatePresence } from 'framer-motion';
 import type { Movie } from '@/types/movie';
 import { Toast } from '@/components/ui/Toast';
 import { EmptyFavorites } from '@/components/movie/EmptyFavorites';
 import FavoriteItem from '@/components/movie/FavoriteItemCard';
 import { TrailerModalFromStore } from '@/components/movie/TrailerModalFromStore';
 
-export function FavoritesPage() {
+function FavoritesContent() {
   const { favorites, toggleFavorite } = useMovieStore();
   const [toast, setToast] = useState({ visible: false, message: '' });
   const [trailerMovie, setTrailerMovie] = useState<Movie | null>(null);
@@ -33,13 +33,13 @@ export function FavoritesPage() {
       <div className="flex-1">
         {/* Desktop padding */}
         <div className="custom-container flex flex-col mt-22 md:mt-38.5">
-          <motion.h1
+          <m.h1
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             className="text-neutral-25 font-bold text-size-display-xs md:text-size-display-lg mb-6xl"
           >
             Favorites
-          </motion.h1>
+          </m.h1>
 
           {favorites.length === 0 ? (
             <EmptyFavorites />
@@ -77,5 +77,13 @@ export function FavoritesPage() {
         />
       )}
     </div>
+  );
+}
+
+export function FavoritesPage() {
+  return (
+    <LazyMotion features={domMax}>
+      <FavoritesContent />
+    </LazyMotion>
   );
 }

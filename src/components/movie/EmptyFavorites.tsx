@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import ClipFavorite from '../../assets/icons/clip-favorite.png';
 import { Button } from '../ui/button';
 
@@ -8,7 +8,7 @@ export function EmptyFavorites() {
 
   return (
     <div className="md:w-75 pt-9 md:pt-14 pb-39 md:pb-60 mx-auto">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -31,7 +31,7 @@ export function EmptyFavorites() {
         >
           Explore Movie
         </Button>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

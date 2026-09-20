@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { getImageUrl, formatDate } from '@/lib/utils';
 import { IMAGE_SIZES } from '@/lib/constants';
 import type { MovieDetailHeroProps } from '@/types/movie';
@@ -36,16 +36,16 @@ export function MovieDetailHero({
       <div className="relative z-10 w-full max-w-360 mt-103">
         <div className="flex flex-row items-start gap-6">
           {/* Poster */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             className="shrink-0 w-11xl md:w-70 aspect-2/3 rounded-xl overflow-hidden shadow-2xl border border-white/10"
           >
             <img src={posterUrl} alt={movie.title} className="w-full h-full object-cover" />
-          </motion.div>
+          </m.div>
 
           {/* Title + Release date */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-col gap-6xl flex-1"
@@ -81,11 +81,11 @@ export function MovieDetailHero({
               </div>
               <MovieStats movie={movie} />
             </div>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Mobile buttons */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           className="md:hidden flex flex-col gap-6xl mt-6xl"
@@ -106,7 +106,7 @@ export function MovieDetailHero({
             </Button>
           </div>
           <MovieStats movie={movie} />
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

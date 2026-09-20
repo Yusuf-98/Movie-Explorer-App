@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { MovieCard } from './MovieCard';
 import { MovieCardSkeleton } from './MovieCardSkeleton';
 import type { MovieGridProps } from '@/types/movie';
@@ -9,14 +9,14 @@ export function MovieGrid({ movies, isLoading, title, skeletonCount = 15 }: Movi
       {/* Title */}
       <div className="w-full flex flex-col gap-3xl md:gap-4xl lg:gap-5xl">
         {title && (
-          <motion.h2
+          <m.h2
             initial={{ opacity: 0, x: -10 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="text-neutral-25 font-bold text-size-display-xs md:text-size-display-md lg:text-size-display-lg"
           >
             {title}
-          </motion.h2>
+          </m.h2>
         )}
         {/* Skeleton */}
         {isLoading ? (

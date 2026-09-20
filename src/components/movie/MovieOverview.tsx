@@ -1,9 +1,9 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import type { MovieOverviewProps } from '@/types/movie';
 
 export function MovieOverview({ movie }: MovieOverviewProps) {
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -14,6 +14,6 @@ export function MovieOverview({ movie }: MovieOverviewProps) {
         Overview
       </h2>
       <p className="text-neutral-400 text-size-md">{movie.overview || 'No overview available.'}</p>
-    </motion.section>
+    </m.section>
   );
 }

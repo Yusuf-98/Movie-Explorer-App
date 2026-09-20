@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import type { TrailerModalProps } from '@/types/movie';
 import { useModalA11y } from '@/hooks/useModalA11y';
@@ -17,7 +17,7 @@ export function TrailerModal({ videos, visible, onClose, movieTitle }: TrailerMo
       {visible && (
         <>
           {/* Backdrop */}
-          <motion.div
+          <m.div
             className="fixed inset-0 z-50 bg-black/80"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -26,7 +26,7 @@ export function TrailerModal({ videos, visible, onClose, movieTitle }: TrailerMo
           />
 
           {/* Modal */}
-          <motion.div
+          <m.div
             className="fixed inset-0 z-201 flex items-center justify-center p-6"
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -83,7 +83,7 @@ export function TrailerModal({ videos, visible, onClose, movieTitle }: TrailerMo
                 </div>
               )}
             </div>
-          </motion.div>
+          </m.div>
         </>
       )}
     </AnimatePresence>

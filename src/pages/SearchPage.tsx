@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import type { Movie } from '@/types/movie';
 import { Toast } from '../components/ui/Toast';
 import { SearchSkeleton } from '@/components/ui/SearchSkeleton';
@@ -39,7 +39,7 @@ export function SearchPage() {
           {isLoading && hasQuery ? (
             <SearchSkeleton key="skeleton" />
           ) : found ? (
-            <motion.div
+            <m.div
               key="results"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -58,7 +58,7 @@ export function SearchPage() {
                   )}
                 </div>
               ))}
-            </motion.div>
+            </m.div>
           ) : notFound ? (
             <NotFoundState key="notfound" />
           ) : (
