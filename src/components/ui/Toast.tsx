@@ -21,8 +21,13 @@ export function Toast({ message, visible, onClose, duration = 3000 }: ToastProps
           transition={{ duration: 0.25, ease: 'easeOut' }}
           className="fixed top-28.5 left-1/2 -translate-x-1/2 z-25 w-[calc(100%-2rem)] max-w-132.75 h-13 flex items-center gap-lg px-3xl rounded-2xl bg-base-white/25 backdrop-blur-2xl"
         >
+          {/* Icon */}
           <img src={CheckIcon} className="w-6 h-6 shrink-0" />
+
+          {/* Message */}
           <span className="text-base-white text-md font-medium flex-1">{message}</span>
+
+          {/* Close */}
           <button
             onClick={onClose}
             aria-label="Close"
