@@ -30,11 +30,16 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-6xl bg-neutral-950 text-center px-xl">
+        {/* Icon */}
         <span className="text-6xl">⚠️</span>
+
+        {/* Message */}
         <p className="text-base-white text-size-xl font-semibold">Something went wrong</p>
         <p className="text-neutral-400 text-size-sm max-w-md">
           An unexpected error occurred. Try again, or head back to the home page.
         </p>
+
+        {/* Actions */}
         <div className="flex items-center gap-lg">
           <button
             onClick={this.handleReset}
