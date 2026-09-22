@@ -23,7 +23,12 @@ export default function SearchResultItem({ movie, index, onWatchTrailer }: Searc
     >
       {/* Favorite button */}
       <div className="hidden md:block absolute top-xl right-xl z-10">
-        <Button variant="favorite" isFavorite={fav} onClick={() => toggleFavorite(movie)}>
+        <Button
+          variant="favorite"
+          isFavorite={fav}
+          onClick={() => toggleFavorite(movie)}
+          aria-label={fav ? 'Remove from favorites' : 'Add to favorites'}
+        >
           <FavoriteIcon isFavorite={fav} />
         </Button>
       </div>
@@ -90,7 +95,12 @@ export default function SearchResultItem({ movie, index, onWatchTrailer }: Searc
 
         {/* Favorite — mobile only */}
         <div className="flex md:hidden">
-          <Button variant="favorite" isFavorite={fav} onClick={() => toggleFavorite(movie)}>
+          <Button
+            variant="favorite"
+            isFavorite={fav}
+            onClick={() => toggleFavorite(movie)}
+            aria-label={fav ? 'Remove from favorites' : 'Add to favorites'}
+          >
             <FavoriteIcon isFavorite={fav} />
           </Button>
         </div>
