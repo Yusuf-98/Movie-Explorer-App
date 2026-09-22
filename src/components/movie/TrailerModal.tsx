@@ -4,7 +4,7 @@ import type { TrailerModalProps } from '@/types/movie';
 import { useModalA11y } from '@/hooks/useModalA11y';
 
 export function TrailerModal({ videos, visible, onClose, movieTitle }: TrailerModalProps) {
-  // Find official YouTube trailer
+  // --- Find trailer ---
   const trailer =
     videos.find((v) => v.site === 'YouTube' && v.type === 'Trailer' && v.official) ??
     videos.find((v) => v.site === 'YouTube' && v.type === 'Trailer') ??
