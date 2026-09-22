@@ -1,4 +1,4 @@
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery, queryOptions } from '@tanstack/react-query';
 import { movieService } from '@/services/movieService';
 import { QUERY_KEYS } from '@/lib/constants';
 
@@ -22,14 +22,17 @@ export const useNowPlayingMovies = (page: number = 1) => {
   });
 };
 
-export const useTrendingMovies = (page: number = 1) => {
-  return useQuery({
+export const trendingMoviesQueryOptions = (page: number = 1) =>
+  queryOptions({
     queryKey: QUERY_KEYS.movies.trending(page),
     queryFn: () => movieService.getTrendingMovies(page),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
     placeholderData: (prev) => prev,
   });
+
+export const useTrendingMovies = (page: number = 1) => {
+  return useQuery(trendingMoviesQueryOptions(page));
 };
 
 export const useMovieDetails = (movieId: number) => {
