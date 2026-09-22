@@ -15,8 +15,10 @@ export function EmptyFavorites() {
         className="flex flex-col items-center justify-center gap-3xl"
       >
         <div className="flex flex-col items-center gap-lg md:gap-xl">
+          {/* Icon */}
           <img src={ClipFavorite} alt="Clip Icon" className="w-50 h-50 grayscale-100" />
 
+          {/* Message */}
           <div className="flex flex-col gap-md text-center">
             <p className="text-base-white font-semibold text-size-md">Data Empty</p>
             <p className="text-neutral-400 text-size-sm">You don't have a favorite movie yet</p>
