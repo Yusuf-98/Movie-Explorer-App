@@ -1,4 +1,4 @@
-// Image sizes
+// --- Image sizes ---
 export const IMAGE_SIZES = {
   poster: {
     small: 'w185',
@@ -20,7 +20,7 @@ export const IMAGE_SIZES = {
   },
 } as const;
 
-// Query keys
+// --- Query keys ---
 export const QUERY_KEYS = {
   movies: {
     popular: (page: number) => ['movies', 'popular', page] as const,
