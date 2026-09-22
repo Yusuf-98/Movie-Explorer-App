@@ -6,6 +6,10 @@ A movie discovery app built with React and the TMDB API — browse popular and t
 
 🚀 **Live demo:** https://movie-app-by-yusuf-ar.vercel.app/
 
+<p align="center">
+  <img src="docs/screenshots/home-hero.png" alt="Movie Explorer home page with hero banner" width="820">
+</p>
+
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6-blue?logo=typescript)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4-38bdf8?logo=tailwindcss)
@@ -13,9 +17,9 @@ A movie discovery app built with React and the TMDB API — browse popular and t
 
 ## Screenshots
 
-| Home | Trending Now | New Release |
-| --- | --- | --- |
-| ![Home hero](docs/screenshots/home-hero.png) | ![Trending Now](docs/screenshots/home-trending.png) | ![New Release](docs/screenshots/home-new-release.png) |
+| Trending Now | New Release |
+| --- | --- |
+| ![Trending Now](docs/screenshots/home-trending.png) | ![New Release](docs/screenshots/home-new-release.png) |
 
 | Search | Favorites |
 | --- | --- |
