@@ -10,19 +10,23 @@ export function useModalA11y(isOpen: boolean, onClose: () => void) {
   useEffect(() => {
     if (!isOpen) return;
 
+    // --- Lock scroll ---
     previouslyFocused.current = document.activeElement as HTMLElement | null;
     document.body.style.overflow = 'hidden';
 
+    // --- Focus first element ---
     const container = containerRef.current;
     const focusables = container?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
     (focusables?.[0] ?? container)?.focus();
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      // --- Escape ---
       if (e.key === 'Escape') {
         onClose();
         return;
       }
 
+      // --- Tab trap ---
       if (e.key !== 'Tab' || !container) return;
 
       const currentFocusables = container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
@@ -42,6 +46,7 @@ export function useModalA11y(isOpen: boolean, onClose: () => void) {
 
     document.addEventListener('keydown', handleKeyDown);
 
+    // --- Cleanup ---
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'unset';
