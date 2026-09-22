@@ -6,7 +6,7 @@ afterEach(() => {
   cleanup();
 });
 
-// ResizeObserver polyfill
+// --- ResizeObserver polyfill ---
 class ResizeObserverStub {
   observe() {}
   unobserve() {}
@@ -14,7 +14,7 @@ class ResizeObserverStub {
 }
 window.ResizeObserver = window.ResizeObserver ?? (ResizeObserverStub as unknown as typeof ResizeObserver);
 
-// matchMedia polyfill
+// --- matchMedia polyfill ---
 if (!window.matchMedia) {
   window.matchMedia = (query: string) => ({
     matches: false,
