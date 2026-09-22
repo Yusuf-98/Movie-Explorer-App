@@ -41,7 +41,7 @@ describe('formatRuntime', () => {
 
 describe('formatCurrency', () => {
   it('formats large amounts as compact USD', () => {
-    // ICU formatting varies by Node version
+    // --- ICU formatting varies by Node version ---
     expect(formatCurrency(150_000_000)).toMatch(/^\$150(\.0)?M$/);
   });
 
