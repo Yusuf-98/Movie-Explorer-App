@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { useTrendingMovies } from '@/hooks/useMovies';
 import { getImageUrl } from '@/lib/utils';
 import { IMAGE_SIZES } from '@/lib/constants';
@@ -15,7 +15,7 @@ export function HeroSection() {
   const movies = data?.results?.slice(0, 5) ?? [];
   const movie = movies[current];
 
-  // Auto-rotate hero
+  // --- Auto-rotate hero ---
   useEffect(() => {
     if (movies.length < 2) return;
     const id = setInterval(() => {
@@ -29,12 +29,13 @@ export function HeroSection() {
   }
 
   const backdropUrl = getImageUrl(movie.backdrop_path, IMAGE_SIZES.backdrop.large);
+  const backdropSmallUrl = getImageUrl(movie.backdrop_path, IMAGE_SIZES.backdrop.medium);
 
   return (
     <div className="w-full h-98 mx-auto lg:h-202.5 max-h-202.5">
       {/* Background image */}
       <AnimatePresence mode="sync">
-        <motion.div
+        <m.div
           key={movie.id}
           className="absolute inset-0 w-full h-full"
           initial={{ opacity: 0 }}
@@ -42,20 +43,24 @@ export function HeroSection() {
           exit={{ opacity: 0 }}
           transition={{ duration: 1 }}
         >
-          <img
-            src={backdropUrl}
-            alt={movie.title}
-            className="w-3/2 h-3/2 object-contain object-top mx-auto"
-          />
+          <picture className="contents">
+            <source media="(max-width: 1023px)" srcSet={backdropSmallUrl} />
+            <img
+              src={backdropUrl}
+              alt={movie.title}
+              fetchPriority="high"
+              className="w-3/2 h-3/2 object-contain object-top mx-auto"
+            />
+          </picture>
           {/* Gradient overlays */}
           <div className="absolute -bottom-202.5 inset-0 bg-linear-to-t from-black via-black to-transparent" />
-        </motion.div>
+        </m.div>
       </AnimatePresence>
 
       {/* Content */}
       <div className="w-90.25 md:w-120 lg:w-158.75 md:ml-4 lg:ml-0 mt-55.75 md:mt-65 lg:mt-74.5">
         <AnimatePresence mode="wait">
-          <motion.div
+          <m.div
             key={movie.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -95,7 +100,7 @@ export function HeroSection() {
                 See Detail
               </Button>
             </div>
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
     </div>
