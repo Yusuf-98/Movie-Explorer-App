@@ -9,6 +9,7 @@ export function MovieStats({ movie }: MovieStatsProps) {
 
   const ageLimit = movie.adult ? '17+' : '13';
 
+  // --- Stats config ---
   const stats = [
     {
       icon: (
