@@ -7,7 +7,7 @@ const api = axios.create({
   },
 });
 
-// Request interceptor
+// --- Request interceptor ---
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   config.params = {
     ...config.params,
@@ -17,7 +17,7 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   return config;
 });
 
-// Response interceptor
+// --- Response interceptor ---
 api.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
