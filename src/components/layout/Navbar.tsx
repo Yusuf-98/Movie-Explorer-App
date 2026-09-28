@@ -1,4 +1,12 @@
-import { useState, useEffect, useRef, useCallback, Suspense, lazy } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useSyncExternalStore,
+  Suspense,
+  lazy,
+} from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchIcon from '../../assets/icons/search.png';
@@ -33,6 +41,12 @@ export function Navbar() {
 
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const isMounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 0);
@@ -254,7 +268,8 @@ export function Navbar() {
       </header>
 
       {/* Mobile fullscreen menu */}
-      {createPortal(
+      {isMounted &&
+        createPortal(
         <AnimatePresence>
           {isMenuOpen && (
             <m.div
