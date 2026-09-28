@@ -56,7 +56,7 @@ export const useSearchMovies = (query: string, page: number = 1) => {
   });
 };
 
-export const useInfiniteNowPlaying = () => {
+export const useInfiniteNowPlaying = (enabled: boolean = true) => {
   return useInfiniteQuery({
     queryKey: ['movies', 'now-playing', 'infinite'],
     queryFn: ({ pageParam = 1 }) => movieService.getNowPlayingMovies(pageParam as number),
@@ -65,5 +65,6 @@ export const useInfiniteNowPlaying = () => {
       lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
+    enabled,
   });
 };
