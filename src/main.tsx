@@ -9,10 +9,12 @@ import './index.css';
 import App from './App.tsx';
 import { createAppQueryClient } from '@/lib/queryClient';
 import { useMovieStore } from '@/store/movieStore';
+import type { HeroImageOverride } from '@/context/HeroImageOverride';
 
 declare global {
   interface Window {
     __REACT_QUERY_STATE__?: DehydratedState;
+    __HERO_IMAGE__?: HeroImageOverride;
   }
 }
 
@@ -20,16 +22,18 @@ const container = document.getElementById('root')!;
 const queryClient = createAppQueryClient();
 
 const dehydratedState = window.__REACT_QUERY_STATE__;
+const heroImageOverride = window.__HERO_IMAGE__ ?? null;
 const wasPrerendered = !!dehydratedState && window.location.pathname === '/';
 
 if (dehydratedState) {
   hydrateQueryState(queryClient, dehydratedState);
   delete window.__REACT_QUERY_STATE__;
+  delete window.__HERO_IMAGE__;
 }
 
 const app = (
   <StrictMode>
-    <App queryClient={queryClient} />
+    <App queryClient={queryClient} heroImageOverride={wasPrerendered ? heroImageOverride : null} />
   </StrictMode>
 );
 
