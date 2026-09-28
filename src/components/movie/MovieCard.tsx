@@ -11,7 +11,8 @@ import { scrollToTop } from '@/lib/scrollToTop';
 export function MovieCard({ movie, index = 0, showRank = false, rank }: MovieCardProps) {
   const { isFavorite, toggleFavorite } = useMovieStore();
   const fav = isFavorite(movie.id);
-  const posterUrl = getImageUrl(movie.poster_path, IMAGE_SIZES.poster.medium);
+  const posterUrl = getImageUrl(movie.poster_path, IMAGE_SIZES.poster.small);
+  const posterUrl2x = getImageUrl(movie.poster_path, IMAGE_SIZES.poster.medium);
 
   return (
     <m.div
@@ -30,6 +31,7 @@ export function MovieCard({ movie, index = 0, showRank = false, rank }: MovieCar
           {movie.poster_path ? (
             <img
               src={posterUrl}
+              srcSet={`${posterUrl} 1x, ${posterUrl2x} 2x`}
               alt={movie.title}
               loading="lazy"
               className="w-54 h-80.75 rounded-xl object-cover transition-transform duration-500 group-hover:scale-105"
