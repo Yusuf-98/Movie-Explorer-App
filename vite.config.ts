@@ -12,6 +12,9 @@ export default defineConfig({
       "@": path.resolve(import.meta.dirname, "./src"),
     },
   },
+  build: {
+    sourcemap: true,
+  },
   test: {
     environment: "jsdom",
     setupFiles: "./src/test/setup.ts",
