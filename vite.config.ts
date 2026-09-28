@@ -14,6 +14,11 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
+    rollupOptions: {
+      output: {
+        sourcemapExcludeSources: true,
+      },
+    },
   },
   test: {
     environment: "jsdom",
