@@ -1,10 +1,12 @@
 import { Writable } from 'node:stream';
 import { StaticRouter } from 'react-router-dom';
-import { QueryClientProvider, dehydrate, type DehydratedState } from '@tanstack/react-query';
+import { QueryClientProvider, dehydrate, type DehydratedState, type QueryClient } from '@tanstack/react-query';
 import { renderToPipeableStream } from 'react-dom/server';
 import { createAppQueryClient } from '@/lib/queryClient';
 import { trendingMoviesQueryOptions } from '@/hooks/useMovies';
+import { HeroImageOverrideProvider, type HeroImageOverride } from '@/context/HeroImageOverride';
 import { AppShell } from '@/AppShell';
+import type { Movie, MovieResponse } from '@/types/movie';
 
 export interface RenderResult {
   html: string;
@@ -33,16 +35,28 @@ function renderToStringAllReady(element: React.ReactNode): Promise<string> {
   });
 }
 
-export async function renderPage(url: string): Promise<RenderResult> {
+export async function prefetchTrending(): Promise<{ queryClient: QueryClient; firstMovie: Movie | null }> {
   const queryClient = createAppQueryClient();
+  const options = trendingMoviesQueryOptions();
 
-  await queryClient.prefetchQuery(trendingMoviesQueryOptions());
+  await queryClient.prefetchQuery(options);
 
+  const data = queryClient.getQueryData<MovieResponse>(options.queryKey);
+  return { queryClient, firstMovie: data?.results?.[0] ?? null };
+}
+
+export async function renderWithData(
+  queryClient: QueryClient,
+  heroImageOverride: HeroImageOverride | null,
+  url: string
+): Promise<RenderResult> {
   const html = await renderToStringAllReady(
     <QueryClientProvider client={queryClient}>
-      <StaticRouter location={url}>
-        <AppShell />
-      </StaticRouter>
+      <HeroImageOverrideProvider value={heroImageOverride}>
+        <StaticRouter location={url}>
+          <AppShell />
+        </StaticRouter>
+      </HeroImageOverrideProvider>
     </QueryClientProvider>
   );
 
