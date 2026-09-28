@@ -13,6 +13,13 @@ function renderNavbar() {
 }
 
 describe('Navbar search validation', () => {
+  it('shows no validation message before the user types anything', async () => {
+    renderNavbar();
+
+    await screen.findByPlaceholderText('Search Movie');
+    expect(screen.queryByText('Type at least 2 characters')).not.toBeInTheDocument();
+  });
+
   it('shows a validation message for a single-character query', async () => {
     const user = userEvent.setup();
     renderNavbar();

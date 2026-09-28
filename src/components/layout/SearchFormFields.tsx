@@ -37,7 +37,7 @@ export default function SearchFormFields({
 
   // --- Validate value seeded from the eager fallback ---
   useEffect(() => {
-    trigger('query');
+    if (initialQuery) trigger('query');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
