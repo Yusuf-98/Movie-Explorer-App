@@ -50,7 +50,7 @@ export function HeroSection() {
           exit={{ opacity: 0 }}
           transition={{ duration: 1 }}
         >
-          <picture className="contents">
+          <picture>
             <source media="(max-width: 1023px)" srcSet={backdropSmallUrl} />
             <img
               src={backdropUrl}
