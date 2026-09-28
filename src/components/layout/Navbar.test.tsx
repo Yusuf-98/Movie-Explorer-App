@@ -39,4 +39,16 @@ describe('Navbar search validation', () => {
     await user.type(screen.getByPlaceholderText('Search Movie'), 'b');
     expect(screen.queryByText('Type at least 2 characters')).not.toBeInTheDocument();
   });
+
+  it('clears the validation message once the query is emptied out', async () => {
+    const user = userEvent.setup();
+    renderNavbar();
+
+    const input = screen.getByPlaceholderText('Search Movie');
+    await user.type(input, 'a');
+    expect(await screen.findByText('Type at least 2 characters')).toBeInTheDocument();
+
+    await user.clear(screen.getByPlaceholderText('Search Movie'));
+    expect(screen.queryByText('Type at least 2 characters')).not.toBeInTheDocument();
+  });
 });
