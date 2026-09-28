@@ -49,6 +49,7 @@ export function HeroSection() {
               src={backdropUrl}
               alt={movie.title}
               fetchPriority="high"
+              decoding="async"
               className="w-3/2 h-3/2 object-contain object-top mx-auto"
             />
           </picture>

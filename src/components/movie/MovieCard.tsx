@@ -34,6 +34,7 @@ export function MovieCard({ movie, index = 0, showRank = false, rank }: MovieCar
               srcSet={`${posterUrl} 1x, ${posterUrl2x} 2x`}
               alt={movie.title}
               loading="lazy"
+              decoding="async"
               className="w-54 h-80.75 rounded-xl object-cover transition-transform duration-500 group-hover:scale-105"
             />
           ) : (
