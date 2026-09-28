@@ -40,6 +40,7 @@ export const useMovieStore = create<MovieStore>()(
     }),
     {
       name: 'movie-store',
+      skipHydration: true,
       partialize: (state) => ({
         favorites: state.favorites,
       }),
