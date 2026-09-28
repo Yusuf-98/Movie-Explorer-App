@@ -2,6 +2,7 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClientProvider, type QueryClient } from '@tanstack/react-query';
 import { AppShell } from '@/AppShell';
+import { HeroImageOverrideProvider, type HeroImageOverride } from '@/context/HeroImageOverride';
 
 // --- Dev tools ---
 const ReactQueryDevtools = import.meta.env.DEV
@@ -12,14 +13,17 @@ const ReactQueryDevtools = import.meta.env.DEV
 
 interface AppProps {
   queryClient: QueryClient;
+  heroImageOverride?: HeroImageOverride | null;
 }
 
-function App({ queryClient }: AppProps) {
+function App({ queryClient, heroImageOverride = null }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <AppShell />
-      </BrowserRouter>
+      <HeroImageOverrideProvider value={heroImageOverride}>
+        <BrowserRouter>
+          <AppShell />
+        </BrowserRouter>
+      </HeroImageOverrideProvider>
       {ReactQueryDevtools && (
         <Suspense fallback={null}>
           <ReactQueryDevtools initialIsOpen={false} />
