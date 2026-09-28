@@ -12,7 +12,7 @@ export function Footer() {
         </Link>
 
         {/* Copyright */}
-        <p className="text-neutral-600 text-size-xs md:text-size-md">
+        <p className="text-neutral-500 text-size-xs md:text-size-md">
           Copyright ©{new Date().getFullYear()} Movie Explorer
         </p>
       </div>
