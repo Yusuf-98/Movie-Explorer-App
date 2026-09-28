@@ -35,10 +35,13 @@ async function main() {
   console.log('[prerender] dist/index.html updated with baked-in Homepage data.');
 }
 
-main().catch((error) => {
-  console.error(
-    '[prerender] Prerender step failed — deploying the client-only shell instead ' +
-      '(dist/index.html is left as the normal SPA build produced by `vite build`):',
-    error
-  );
-});
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(
+      '[prerender] Prerender step failed — deploying the client-only shell instead ' +
+        '(dist/index.html is left as the normal SPA build produced by `vite build`):',
+      error
+    );
+    process.exit(0);
+  });

@@ -2,6 +2,7 @@ import axios, { type InternalAxiosRequestConfig, type AxiosResponse, type AxiosE
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_TMDB_BASE_URL as string,
+  timeout: 10_000,
   headers: {
     'Content-Type': 'application/json',
   },
