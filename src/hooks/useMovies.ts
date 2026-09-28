@@ -26,8 +26,8 @@ export const trendingMoviesQueryOptions = (page: number = 1) =>
   queryOptions({
     queryKey: QUERY_KEYS.movies.trending(page),
     queryFn: () => movieService.getTrendingMovies(page),
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
+    staleTime: 60 * 60 * 1000,
+    gcTime: 24 * 60 * 60 * 1000,
     placeholderData: (prev) => prev,
   });
 
