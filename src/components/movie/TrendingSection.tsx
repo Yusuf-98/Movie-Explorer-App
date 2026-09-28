@@ -1,5 +1,5 @@
 import { useTrendingMovies } from '@/hooks/useMovies';
-import { MovieCard } from './MovieCard';
+import { TrendingCard } from './TrendingCard';
 import { MovieCardSkeleton } from './MovieCardSkeleton';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { useCarousel } from '../ui/carousel.context';
@@ -94,7 +94,7 @@ export function TrendingSection() {
                   : trendingMovies.map((movie, i) => (
                       <CarouselItem key={movie.id} className="pl-4 basis-auto">
                         <div className="w-43.25 md:50 lg:w-54 shrink-0">
-                          <MovieCard movie={movie} index={i} showRank={true} rank={i + 1} />
+                          <TrendingCard movie={movie} index={i} rank={i + 1} />
                         </div>
                       </CarouselItem>
                     ))}
