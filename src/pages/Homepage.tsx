@@ -3,11 +3,13 @@ import { HeroSection } from '@/components/movie/HeroSection';
 import { TrendingSection } from '@/components/movie/TrendingSection';
 import { MovieGrid } from '@/components/movie/MovieGrid';
 import { useInfiniteNowPlaying } from '@/hooks/useMovies';
+import { useInView } from '@/hooks/useInView';
 import { Button } from '@/components/ui/button';
 
 export function HomePage() {
+  const { ref: gridRef, inView: gridInView } = useInView();
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteNowPlaying();
+    useInfiniteNowPlaying(gridInView);
 
   const [visibleCount, setVisibleCount] = useState(15);
 
@@ -35,9 +37,13 @@ export function HomePage() {
       </div>
 
       {/* New Release */}
-      <div className="relative z-10">
+      <div className="relative z-10" ref={gridRef}>
         <div className="relative">
-          <MovieGrid movies={visibleMovies} isLoading={isLoading} title="New Release" />
+          <MovieGrid
+            movies={visibleMovies}
+            isLoading={!gridInView || isLoading}
+            title="New Release"
+          />
 
           {/* Gradient overlay */}
           {canLoadMore && (
