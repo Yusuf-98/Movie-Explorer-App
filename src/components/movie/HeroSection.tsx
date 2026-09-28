@@ -4,6 +4,7 @@ import { m, AnimatePresence } from 'framer-motion';
 import { useTrendingMovies } from '@/hooks/useMovies';
 import { getImageUrl } from '@/lib/utils';
 import { IMAGE_SIZES } from '@/lib/constants';
+import { useHeroImageOverride } from '@/context/HeroImageOverride';
 import { Button } from '../ui/button';
 import PlayIcon from '../../assets/icons/play.png';
 
@@ -11,6 +12,7 @@ export function HeroSection() {
   const { data } = useTrendingMovies();
   const navigate = useNavigate();
   const [current, setCurrent] = useState(0);
+  const heroImageOverride = useHeroImageOverride();
 
   const movies = data?.results?.slice(0, 5) ?? [];
   const movie = movies[current];
@@ -28,8 +30,13 @@ export function HeroSection() {
     return <div className="relative w-full bg-black h-98 lg:h-202.5 max-h-202.5" />;
   }
 
-  const backdropUrl = getImageUrl(movie.backdrop_path, IMAGE_SIZES.backdrop.large);
-  const backdropSmallUrl = getImageUrl(movie.backdrop_path, IMAGE_SIZES.backdrop.medium);
+  const useOverride = heroImageOverride?.movieId === movie.id;
+  const backdropUrl = useOverride
+    ? heroImageOverride.desktopSrc
+    : getImageUrl(movie.backdrop_path, IMAGE_SIZES.backdrop.large);
+  const backdropSmallUrl = useOverride
+    ? heroImageOverride.mobileSrc
+    : getImageUrl(movie.backdrop_path, IMAGE_SIZES.backdrop.medium);
 
   return (
     <div className="w-full h-98 mx-auto lg:h-202.5 max-h-202.5">
