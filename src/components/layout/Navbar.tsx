@@ -1,15 +1,11 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, Suspense, lazy } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useNavigate } from 'react-router-dom';
-import { useForm, useWatch } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import SearchIcon from '../../assets/icons/search.png';
 import ArrowBack from '../../assets/icons/arrow-back.png';
-import CloseInput from '../../assets/icons/close-input.png';
-import SearchInput from '../../assets/icons/search-input.png';
 import { useMovieStore } from '@/store/movieStore';
 import { cn } from '@/lib/utils';
-import { searchSchema, type SearchFormValues } from '@/lib/schemas';
+import { SearchInputVisual } from './SearchInputVisual';
 import Logo from '../ui/Logo';
 import {
   NavigationMenu,
@@ -18,12 +14,13 @@ import {
   NavigationMenuLink,
 } from '@/components/ui/navigation-menu';
 import { navigationMenuTriggerStyle } from '../ui/navigation-menu-style';
-import { Input } from '../ui/input';
 import { scrollToTop } from '@/lib/scrollToTop';
 import Hamburger from '../../assets/icons/hamburger-menu.png';
 import CloseIcon from '../../assets/icons/x-icon.png';
 import { m, AnimatePresence } from 'framer-motion';
 import { useModalA11y } from '@/hooks/useModalA11y';
+
+const LazySearchFormFields = lazy(() => import('./SearchFormFields'));
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,19 +31,8 @@ export function Navbar() {
   const navigate = useNavigate();
   const { favorites } = useMovieStore();
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    setValue,
-    setFocus,
-    formState: { errors },
-  } = useForm<SearchFormValues>({
-    resolver: zodResolver(searchSchema),
-    defaultValues: { query: '' },
-    mode: 'onChange',
-  });
-  const query = useWatch({ control, name: 'query' });
+  const [query, setQuery] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 0);
@@ -67,26 +53,25 @@ export function Navbar() {
 
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
-    setValue('query', '');
-  }, [setValue]);
+    setQuery('');
+  }, []);
 
   const menuRef = useModalA11y(isMenuOpen, closeMenu);
 
   const openSearch = () => {
     setIsSearchOpen(true);
     if (isMenuOpen) closeMenu();
-    setValue('query', '');
-    setTimeout(() => setFocus('query'), 150);
+    setQuery('');
+    setTimeout(() => inputRef.current?.focus(), 150);
   };
   const closeSearch = () => {
     setIsSearchOpen(false);
-    setValue('query', '');
+    setQuery('');
   };
 
-  // eslint-disable-next-line react-hooks/refs -- register()'s ref, not read during render
-  const queryField = register('query', {
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      const val = e.target.value;
+  const handleQueryChange = useCallback(
+    (val: string) => {
+      setQuery(val);
       clearTimeout(timerRef.current);
       if (val.trim().length > 1) {
         timerRef.current = setTimeout(() => {
@@ -94,11 +79,22 @@ export function Navbar() {
         }, 500);
       }
     },
-  });
+    [navigate]
+  );
 
-  const onSubmit = (values: SearchFormValues) => {
-    navigate(`/search?q=${encodeURIComponent(values.query.trim())}`);
-    setTimeout(closeSearch, 200);
+  const handleSubmitQuery = useCallback(
+    (val: string) => {
+      const trimmed = val.trim();
+      if (trimmed.length < 2 || trimmed.length > 100) return;
+      navigate(`/search?q=${encodeURIComponent(trimmed)}`);
+      setTimeout(closeSearch, 200);
+    },
+    [navigate]
+  );
+
+  const handlePlainSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleSubmitQuery(query);
   };
 
   return (
@@ -131,43 +127,27 @@ export function Navbar() {
               </button>
 
               {/* Search form */}
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="flex-1 relative flex items-center"
+              <Suspense
+                fallback={
+                  <SearchInputVisual
+                    variant="mobile"
+                    value={query}
+                    onChangeText={handleQueryChange}
+                    onSubmit={handlePlainSubmit}
+                    inputRef={inputRef}
+                    autoFocus
+                  />
+                }
               >
-                <img
-                  src={SearchInput}
-                  alt="Search Movie"
-                  className="w-6 h-6 absolute left-4 text-neutral-500 pointer-events-none shrink-0"
-                />
-                <Input
-                  {...queryField}
-                  type="text"
-                  placeholder="Search Movie"
+                <LazySearchFormFields
+                  variant="mobile"
+                  initialQuery={query}
+                  onQueryChange={handleQueryChange}
+                  onSubmitQuery={handleSubmitQuery}
+                  inputRef={inputRef}
                   autoFocus
-                  className={cn(
-                    'w-full h-11 pl-11 py-md bg-neutral-950/60 border border-neutral-800 rounded-xl',
-                    'text-neutral-25 text-size-sm placeholder:text-neutral-500',
-                    'focus:border-neutral-500/30 transition-all duration-200',
-                    query ? 'pr-10' : 'pr-xl'
-                  )}
                 />
-                {query && (
-                  <button
-                    type="button"
-                    onClick={() => setValue('query', '')}
-                    aria-label="Clear"
-                    className="absolute right-3 flex items-center justify-center  py-md px-xl cursor-pointer "
-                  >
-                    <img src={CloseInput} alt="Clear Typing" className="w-4 h-4" />
-                  </button>
-                )}
-                {errors.query && (
-                  <p className="absolute top-full left-0 mt-xs text-primary-200 text-size-xs">
-                    {errors.query.message}
-                  </p>
-                )}
-              </form>
+              </Suspense>
             </m.div>
           ) : (
             /* ── NORMAL NAVBAR ── */
@@ -227,39 +207,25 @@ export function Navbar() {
                 {/* Right: Desktop Search + Mobile Icons */}
                 <div className="flex items-center gap-3 md:gap-4">
                   {/* Desktop Search */}
-                  <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="relative w-60.75 h-14 hidden md:block"
+                  <Suspense
+                    fallback={
+                      <SearchInputVisual
+                        variant="desktop"
+                        value={query}
+                        onChangeText={handleQueryChange}
+                        onSubmit={handlePlainSubmit}
+                        inputRef={inputRef}
+                      />
+                    }
                   >
-                    <div className="relative w-full h-full flex items-center">
-                      <img
-                        src={SearchIcon}
-                        alt="Search Movie"
-                        className="w-6 h-6 absolute left-4 text-neutral-500 pointer-events-none"
-                      />
-                      <Input
-                        {...queryField}
-                        type="text"
-                        placeholder="Search Movie"
-                        className="h-full w-full border transition-all duration-200 pl-12 pr-10 bg-neutral-950/60 text-neutral-25 placeholder:text-neutral-500 border-neutral-800 focus:border-neutral-500/30 focus:border"
-                      />
-                      {query && (
-                        <button
-                          type="button"
-                          onClick={() => setValue('query', '')}
-                          aria-label="Clear"
-                          className="absolute right-4 p-0.75 transition-colors cursor-pointer"
-                        >
-                          <img src={CloseInput} alt="Clear" className="w-5 h-5" />
-                        </button>
-                      )}
-                      {errors.query && (
-                        <p className="absolute top-full left-0 mt-xs text-primary-200 text-size-xs whitespace-nowrap">
-                          {errors.query.message}
-                        </p>
-                      )}
-                    </div>
-                  </form>
+                    <LazySearchFormFields
+                      variant="desktop"
+                      initialQuery={query}
+                      onQueryChange={handleQueryChange}
+                      onSubmitQuery={handleSubmitQuery}
+                      inputRef={inputRef}
+                    />
+                  </Suspense>
 
                   {/* Mobile: Search + Hamburger icons */}
                   <div className="md:hidden flex items-center gap-3xl">

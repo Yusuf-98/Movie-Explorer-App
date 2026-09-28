@@ -26,11 +26,10 @@ describe('Navbar search validation', () => {
     const user = userEvent.setup();
     renderNavbar();
 
-    const input = screen.getByPlaceholderText('Search Movie');
-    await user.type(input, 'a');
+    await user.type(screen.getByPlaceholderText('Search Movie'), 'a');
     expect(await screen.findByText('Type at least 2 characters')).toBeInTheDocument();
 
-    await user.type(input, 'b');
+    await user.type(screen.getByPlaceholderText('Search Movie'), 'b');
     expect(screen.queryByText('Type at least 2 characters')).not.toBeInTheDocument();
   });
 });
