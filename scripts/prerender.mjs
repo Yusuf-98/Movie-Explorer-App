@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -59,8 +59,24 @@ async function buildHeroImageOverride(firstMovie) {
   };
 }
 
+async function buildFontPreloadTags() {
+  const files = await readdir(ASSETS_DIR);
+  const fontFiles = files.filter((f) => /^poppins-latin-\d+-normal-.*\.woff2$/.test(f));
+  return fontFiles
+    .map((f) => `<link rel="preload" as="font" type="font/woff2" href="/assets/${f}" crossorigin>`)
+    .join('\n    ');
+}
+
 async function main() {
-  const template = await readFile(INDEX_HTML_PATH, 'utf-8');
+  let template = await readFile(INDEX_HTML_PATH, 'utf-8');
+
+  const fontPreloadTags = await buildFontPreloadTags();
+  if (fontPreloadTags) {
+    template = template.replace(
+      '<meta name="viewport" content="width=device-width, initial-scale=1.0" />',
+      `<meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    ${fontPreloadTags}`
+    );
+  }
 
   const entryServerUrl = pathToFileURL(path.join(ROOT, 'dist-ssr/entry-server.js'));
   const { prefetchTrending, renderWithData } = await import(entryServerUrl);
