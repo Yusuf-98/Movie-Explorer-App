@@ -35,7 +35,7 @@ export function MovieCard({ movie, index = 0, showRank = false, rank }: MovieCar
               alt={movie.title}
               loading="lazy"
               decoding="async"
-              className="w-54 h-80.75 rounded-xl object-cover transition-transform duration-500 group-hover:scale-105"
+              className="w-full aspect-2/3 rounded-xl object-cover transition-transform duration-500 group-hover:scale-105"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-neutral-600">
