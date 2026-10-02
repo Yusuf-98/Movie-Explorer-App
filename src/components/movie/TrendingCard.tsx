@@ -4,7 +4,7 @@ import { MovieCard } from './MovieCard';
 import { MovieCardSkeleton } from './MovieCardSkeleton';
 import type { Movie } from '@/types/movie';
 
-const EAGER_COUNT = 6;
+const EAGER_COUNT = 3;
 
 interface TrendingCardProps {
   movie: Movie;
