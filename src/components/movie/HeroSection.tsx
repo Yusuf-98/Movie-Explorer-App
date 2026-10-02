@@ -45,7 +45,7 @@ export function HeroSection() {
         <m.div
           key={movie.id}
           className="absolute inset-0 w-full h-full"
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 0.1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1 }}
