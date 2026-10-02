@@ -1,8 +1,12 @@
 {
   "name": "movie-app",
+  "description": "A movie discovery app built with React and the TMDB API — browse, search, and favorite movies.",
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build && npm run build:ssr && npm run prerender",
