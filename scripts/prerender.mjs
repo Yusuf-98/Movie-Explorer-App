@@ -1,4 +1,4 @@
-import { readFile, writeFile, readdir } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -59,24 +59,32 @@ async function buildHeroImageOverride(firstMovie) {
   };
 }
 
-async function buildFontPreloadTags() {
-  const files = await readdir(ASSETS_DIR);
-  const fontFiles = files.filter((f) => /^poppins-latin-\d+-normal-.*\.woff2$/.test(f));
-  return fontFiles
-    .map((f) => `<link rel="preload" as="font" type="font/woff2" href="/assets/${f}" crossorigin>`)
-    .join('\n    ');
+const FONT_WEIGHTS = [400, 500, 600, 700];
+const FONTSOURCE_FILES_DIR = path.join(ROOT, 'node_modules/@fontsource/poppins/files');
+
+async function buildInlineFontStyle() {
+  const faces = await Promise.all(
+    FONT_WEIGHTS.map(async (weight) => {
+      const filePath = path.join(FONTSOURCE_FILES_DIR, `poppins-latin-${weight}-normal.woff2`);
+      const bytes = await readFile(filePath);
+      const base64 = bytes.toString('base64');
+      return (
+        `@font-face{font-family:'Poppins';font-style:normal;font-display:swap;` +
+        `font-weight:${weight};src:url(data:font/woff2;base64,${base64}) format('woff2')}`
+      );
+    })
+  );
+  return `<style>${faces.join('')}</style>`;
 }
 
 async function main() {
   let template = await readFile(INDEX_HTML_PATH, 'utf-8');
 
-  const fontPreloadTags = await buildFontPreloadTags();
-  if (fontPreloadTags) {
-    template = template.replace(
-      '<meta name="viewport" content="width=device-width, initial-scale=1.0" />',
-      `<meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    ${fontPreloadTags}`
-    );
-  }
+  const inlineFontStyle = await buildInlineFontStyle();
+  template = template.replace(
+    '<meta name="viewport" content="width=device-width, initial-scale=1.0" />',
+    `<meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    ${inlineFontStyle}`
+  );
 
   const entryServerUrl = pathToFileURL(path.join(ROOT, 'dist-ssr/entry-server.js'));
   const { prefetchTrending, renderWithData } = await import(entryServerUrl);
