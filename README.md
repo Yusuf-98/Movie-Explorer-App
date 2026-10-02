@@ -47,6 +47,18 @@ A movie discovery app built with React and the TMDB API — browse popular and t
 - **Framer Motion** — animations & transitions
 - **Tailwind CSS** — styling
 
+## API
+
+Movie data comes from [The Movie Database (TMDB) API](https://www.themoviedb.org/documentation/api):
+
+- `GET /trending/movie/week` — hero banner & trending row
+- `GET /movie/popular` — home page grid
+- `GET /movie/now_playing` — new release row
+- `GET /search/movie` — search results
+- `GET /movie/{id}` (with `append_to_response=credits,videos,similar`) — detail page
+
+Images are served from TMDB's CDN at size variants defined in `src/lib/constants.ts`. This product uses the TMDB API but is not endorsed or certified by TMDB.
+
 ## Getting Started
 
 ```bash
@@ -79,6 +91,12 @@ npm run test
 
 Runs the Vitest suite once (store logic, utility functions, search validation, the trailer modal, and the error boundary).
 
+## Performance
+
+- **Build-time prerendering** — the home page's trending data and markup are fetched and rendered to static HTML during `npm run build` (`scripts/prerender.mjs`), then hydrated on the client. No request round-trip is needed before the first paint.
+- **Self-hosted hero image** — the first hero banner's image is downloaded at build time and served from the same origin as the page, removing a cross-origin connection from the critical rendering path.
+- **Route-level code splitting** — detail, search, and favorites pages are lazy-loaded with `React.lazy`.
+
 ## Scripts
 
 ```bash
@@ -101,6 +119,10 @@ src/
 ├── types/            # TypeScript types
 └── lib/              # Axios instance, utilities, schemas
 ```
+
+## Deployment
+
+Deployed on [Vercel](https://vercel.com) as a static site. `npm run build` type-checks, builds the client bundle, builds the SSR entry, then runs the prerender step so `dist/` ships with the home page already rendered. `vercel.json` sets a one-year immutable cache on hashed assets under `/assets/`.
 
 ## Author
 
