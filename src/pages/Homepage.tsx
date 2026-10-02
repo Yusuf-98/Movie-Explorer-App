@@ -1,14 +1,10 @@
-import { lazy, Suspense, useState } from 'react';
+import { useState } from 'react';
 import { HeroSection } from '@/components/movie/HeroSection';
-import { TrendingSectionSkeleton } from '@/components/movie/TrendingSectionSkeleton';
+import { TrendingSection } from '@/components/movie/TrendingSection';
 import { MovieGrid } from '@/components/movie/MovieGrid';
 import { useInfiniteNowPlaying } from '@/hooks/useMovies';
 import { useInView } from '@/hooks/useInView';
 import { Button } from '@/components/ui/button';
-
-const TrendingSection = lazy(() =>
-  import('@/components/movie/TrendingSection').then((mod) => ({ default: mod.TrendingSection }))
-);
 
 export function HomePage() {
   const { ref: gridRef, inView: gridInView } = useInView();
@@ -37,16 +33,11 @@ export function HomePage() {
 
       {/* Trending Section */}
       <div style={{ marginTop: '-47px', position: 'relative', zIndex: 10 }}>
-        <Suspense fallback={<TrendingSectionSkeleton />}>
-          <TrendingSection />
-        </Suspense>
+        <TrendingSection />
       </div>
 
       {/* New Release */}
-      <div
-        className="relative z-10 [content-visibility:auto] [contain-intrinsic-height:3360px] md:[contain-intrinsic-height:2197px] lg:[contain-intrinsic-height:1377px]"
-        ref={gridRef}
-      >
+      <div className="relative z-10" ref={gridRef}>
         <div className="relative">
           <MovieGrid
             movies={visibleMovies}
