@@ -97,6 +97,7 @@ Tests live next to the code they cover (`*.test.ts` / `*.test.tsx`) and run with
 - **Favorites store**: adding, ignoring duplicates, removing and toggling.
 - **Utilities**: TMDB image URLs with a placeholder fallback, and date, runtime and currency formatting with "N/A" fallbacks.
 - **Error boundary**: renders the fallback when a child throws, and navigates home from it.
+- **Retry policy**: client errors (4xx, such as an unknown movie id) are never retried; network and server errors are retried once.
 
 GitHub Actions runs lint, type-check, tests and the production build on every push and pull request to `main` ([ci.yml](.github/workflows/ci.yml)).
 
