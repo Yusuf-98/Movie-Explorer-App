@@ -18,16 +18,29 @@ api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   return config;
 });
 
+// --- Errors ---
+export class ApiError extends Error {
+  status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
+  }
+}
+
+const MESSAGE_BY_STATUS: Record<number, string> = {
+  401: 'Invalid API key. Check your .env file.',
+  404: 'Data not found.',
+  429: 'Too many requests. Try again shortly.',
+};
+
 // --- Response interceptor ---
 api.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
-    if (axios.isAxiosError(error)) {
-      const status = error.response?.status;
-      if (status === 401) throw new Error('Invalid API key. Check your .env file.');
-      if (status === 404) throw new Error('Data not found.');
-      if (status === 429) throw new Error('Too many requests. Try again shortly.');
-    }
+    const status = error.response?.status;
+    if (status) throw new ApiError(MESSAGE_BY_STATUS[status] ?? error.message, status);
     throw error;
   }
 );
