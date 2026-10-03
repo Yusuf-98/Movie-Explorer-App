@@ -1,18 +1,30 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { m, AnimatePresence } from 'framer-motion';
 import { useTrendingMovies } from '@/hooks/useMovies';
 import { getImageUrl } from '@/lib/utils';
 import { IMAGE_SIZES } from '@/lib/constants';
 import { useHeroImageOverride } from '@/context/HeroImageOverride';
+import type { Movie } from '@/types/movie';
 import { Button } from '../ui/button';
 import PlayIcon from '../../assets/icons/play.png';
+
+const TrailerModalFromStore = lazy(() =>
+  import('./TrailerModalFromStore').then((mod) => ({ default: mod.TrailerModalFromStore }))
+);
+const Toast = lazy(() => import('../ui/Toast').then((mod) => ({ default: mod.Toast })));
 
 export function HeroSection() {
   const { data } = useTrendingMovies();
   const navigate = useNavigate();
   const [current, setCurrent] = useState(0);
+  const [trailerMovie, setTrailerMovie] = useState<Movie | null>(null);
+  const [toastVisible, setToastVisible] = useState(false);
   const heroImageOverride = useHeroImageOverride();
+
+  const closeTrailer = useCallback(() => setTrailerMovie(null), []);
+  const showNoTrailer = useCallback(() => setToastVisible(true), []);
+  const closeToast = useCallback(() => setToastVisible(false), []);
 
   const movies = data?.results?.slice(0, 5) ?? [];
   const movie = movies[current];
@@ -92,7 +104,7 @@ export function HeroSection() {
               <Button
                 type="button"
                 variant={'default'}
-                onClick={() => navigate(`/movie/${movie.id}`)}
+                onClick={() => setTrailerMovie(movie)}
                 className="w-full md:w-57.5 z-20"
               >
                 Watch Trailer <img src={PlayIcon} alt="" className="w-6 h-6" />
@@ -111,6 +123,24 @@ export function HeroSection() {
           </m.div>
         </AnimatePresence>
       </div>
+
+      {/* Trailer modal */}
+      {trailerMovie && (
+        <Suspense fallback={null}>
+          <TrailerModalFromStore
+            movie={trailerMovie}
+            onClose={closeTrailer}
+            onNoTrailer={showNoTrailer}
+          />
+        </Suspense>
+      )}
+
+      {/* Toast */}
+      {toastVisible && (
+        <Suspense fallback={null}>
+          <Toast message="No trailer available" visible onClose={closeToast} />
+        </Suspense>
+      )}
     </div>
   );
 }
