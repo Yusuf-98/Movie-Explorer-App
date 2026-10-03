@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, LazyMotion, domAnimation, m } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
@@ -26,14 +26,21 @@ function RouteFallback() {
   );
 }
 
+let routeHasMounted = false;
+
 function AnimatedRoutes() {
   const location = useLocation();
+  const skipInitial = !routeHasMounted;
+
+  useEffect(() => {
+    routeHasMounted = true;
+  }, []);
 
   return (
     <AnimatePresence mode="wait">
       <m.div
         key={location.pathname}
-        initial={{ opacity: 0, y: 10 }}
+        initial={skipInitial ? false : { opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -10 }}
         transition={{ duration: 0.25 }}
