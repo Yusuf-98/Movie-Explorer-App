@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useNavigate } from 'react-router-dom';
-import SearchIcon from '../../assets/icons/search.png';
+import { Search, Menu } from 'lucide-react';
 import ArrowBack from '../../assets/icons/arrow-back.png';
 import { useMovieStore } from '@/store/movieStore';
 import { cn } from '@/lib/utils';
@@ -23,7 +23,6 @@ import {
 } from '@/components/ui/navigation-menu';
 import { navigationMenuTriggerStyle } from '../ui/navigation-menu-style';
 import { scrollToTop } from '@/lib/scrollToTop';
-import Hamburger from '../../assets/icons/hamburger-menu.png';
 import CloseIcon from '../../assets/icons/x-icon.png';
 import { m, AnimatePresence } from 'framer-motion';
 import { useModalA11y } from '@/hooks/useModalA11y';
@@ -249,7 +248,7 @@ export function Navbar() {
                       aria-label="Search"
                       className="flex items-center justify-center bg-transparent border-none cursor-pointer text-base-white p-0"
                     >
-                      <img src={SearchIcon} alt="Search Movie" className="w-6 h-6" />
+                      <Search className="w-6 h-6" aria-hidden="true" />
                     </button>
                     <button
                       type="button"
@@ -257,7 +256,7 @@ export function Navbar() {
                       aria-label="Open menu"
                       className="flex items-center justify-center bg-transparent border-none cursor-pointer p-0"
                     >
-                      <img src={Hamburger} alt="Menu" className="w-6 h-6" />
+                      <Menu className="w-6 h-6" aria-hidden="true" />
                     </button>
                   </div>
                 </div>

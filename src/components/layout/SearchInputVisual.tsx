@@ -1,8 +1,7 @@
 import type { Ref } from 'react';
+import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '../ui/input';
-import SearchIcon from '../../assets/icons/search.png';
-import SearchInputIcon from '../../assets/icons/search-input.png';
 import CloseInput from '../../assets/icons/close-input.png';
 
 interface SearchInputVisualProps {
@@ -27,10 +26,9 @@ export function SearchInputVisual({
   if (variant === 'mobile') {
     return (
       <form onSubmit={onSubmit} className="flex-1 relative flex items-center">
-        <img
-          src={SearchInputIcon}
-          alt="Search Movie"
+        <Search
           className="w-6 h-6 absolute left-4 text-neutral-500 pointer-events-none shrink-0"
+          aria-hidden="true"
         />
         <Input
           ref={inputRef}
@@ -68,10 +66,9 @@ export function SearchInputVisual({
   return (
     <form onSubmit={onSubmit} className="relative w-60.75 h-14 hidden md:block">
       <div className="relative w-full h-full flex items-center">
-        <img
-          src={SearchIcon}
-          alt="Search Movie"
+        <Search
           className="w-6 h-6 absolute left-4 text-neutral-500 pointer-events-none"
+          aria-hidden="true"
         />
         <Input
           ref={inputRef}
