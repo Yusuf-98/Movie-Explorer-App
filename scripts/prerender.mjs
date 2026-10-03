@@ -90,8 +90,9 @@ function deferScriptsUntilHero(html) {
     `<script>(function(){var d=document,s=${JSON.stringify(main[1])},p=${JSON.stringify(preloads)},done=false;` +
     `function go(){if(done)return;done=true;p.forEach(function(h){var l=d.createElement('link');l.rel='modulepreload';l.crossOrigin='';l.href=h;d.head.appendChild(l)});` +
     `var e=d.createElement('script');e.type='module';e.crossOrigin='';e.src=s;d.body.appendChild(e)}` +
-    `var i=d.querySelector('img[fetchpriority="high"]');if(!i||i.complete){go();return}` +
-    `i.addEventListener('load',go);i.addEventListener('error',go);setTimeout(go,${HERO_WAIT_FALLBACK_MS})})();</script>`;
+    `function afterPaint(){requestAnimationFrame(function(){setTimeout(go,0)})}` +
+    `var i=d.querySelector('img[fetchpriority="high"]');if(!i||!i.decode){go();return}` +
+    `i.decode().then(afterPaint,go);setTimeout(go,${HERO_WAIT_FALLBACK_MS})})();</script>`;
 
   return html
     .replace(MAIN_SCRIPT_RE, '')
