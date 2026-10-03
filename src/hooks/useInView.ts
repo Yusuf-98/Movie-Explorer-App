@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export function useInView(rootMargin = '400px') {
+export function useInView(rootMargin = '50px') {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
 
