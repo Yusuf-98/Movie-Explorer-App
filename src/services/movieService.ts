@@ -2,11 +2,6 @@ import api from '@/lib/axios';
 import type { MovieResponse, MovieDetails } from '@/types/movie';
 
 export const movieService = {
-  getPopularMovies: async (page: number = 1): Promise<MovieResponse> => {
-    const { data } = await api.get<MovieResponse>('/movie/popular', { params: { page } });
-    return data;
-  },
-
   getNowPlayingMovies: async (page: number = 1): Promise<MovieResponse> => {
     const { data } = await api.get<MovieResponse>('/movie/now_playing', { params: { page } });
     return data;

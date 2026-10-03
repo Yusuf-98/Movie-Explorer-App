@@ -2,16 +2,6 @@ import { useQuery, useInfiniteQuery, queryOptions } from '@tanstack/react-query'
 import { movieService } from '@/services/movieService';
 import { QUERY_KEYS } from '@/lib/constants';
 
-export const usePopularMovies = (page: number = 1) => {
-  return useQuery({
-    queryKey: QUERY_KEYS.movies.popular(page),
-    queryFn: () => movieService.getPopularMovies(page),
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
-    placeholderData: (prev) => prev,
-  });
-};
-
 export const useNowPlayingMovies = (page: number = 1) => {
   return useQuery({
     queryKey: QUERY_KEYS.movies.nowPlaying(page),
