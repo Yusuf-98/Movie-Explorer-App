@@ -81,13 +81,9 @@ async function main() {
   let template = await readFile(INDEX_HTML_PATH, 'utf-8');
 
   const inlineFontStyle = await buildInlineFontStyle();
-  const fontEagerLoadScript =
-    `<script>` +
-    FONT_WEIGHTS.map((w) => `document.fonts.load('${w} 16px Poppins');`).join('') +
-    `</script>`;
   template = template.replace(
     '<meta name="viewport" content="width=device-width, initial-scale=1.0" />',
-    `<meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    ${inlineFontStyle}\n    ${fontEagerLoadScript}`
+    `<meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    ${inlineFontStyle}`
   );
 
   const entryServerUrl = pathToFileURL(path.join(ROOT, 'dist-ssr/entry-server.js'));
