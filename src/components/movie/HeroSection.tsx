@@ -41,11 +41,11 @@ export function HeroSection() {
   return (
     <div className="w-full h-98 mx-auto lg:h-202.5 max-h-202.5">
       {/* Background image */}
-      <AnimatePresence mode="sync">
+      <AnimatePresence mode="sync" initial={false}>
         <m.div
           key={movie.id}
           className="absolute inset-0 w-full h-full"
-          initial={{ opacity: 0.1 }}
+          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1 }}
