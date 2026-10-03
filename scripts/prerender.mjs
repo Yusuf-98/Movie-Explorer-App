@@ -102,6 +102,13 @@ async function main() {
     console.error('[prerender] Hero image self-host failed, falling back to TMDB URLs:', error);
   }
 
+  if (heroImageOverride) {
+    const heroPreloadTags =
+      `<link rel="preload" as="image" href="${heroImageOverride.mobileSrc}" media="(max-width: 1023px)" fetchpriority="high">\n    ` +
+      `<link rel="preload" as="image" href="${heroImageOverride.desktopSrc}" media="(min-width: 1024px)" fetchpriority="high">`;
+    template = template.replace('</head>', `    ${heroPreloadTags}\n  </head>`);
+  }
+
   const { html, dehydratedState } = await withTimeout(
     renderWithData(queryClient, heroImageOverride, '/'),
     RENDER_TIMEOUT_MS,
