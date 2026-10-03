@@ -77,6 +77,28 @@ async function buildInlineFontStyle() {
   return `<style>${faces.join('')}</style>`;
 }
 
+const MAIN_SCRIPT_RE = /<script type="module" crossorigin src="([^"]+)"><\/script>\s*/;
+const MODULE_PRELOAD_RE = /<link rel="modulepreload" crossorigin href="([^"]+)">\s*/g;
+const HERO_WAIT_FALLBACK_MS = 3000;
+
+function deferScriptsUntilHero(html) {
+  const main = html.match(MAIN_SCRIPT_RE);
+  if (!main) return html;
+
+  const preloads = [...html.matchAll(MODULE_PRELOAD_RE)].map((m) => m[1]);
+  const loader =
+    `<script>(function(){var d=document,s=${JSON.stringify(main[1])},p=${JSON.stringify(preloads)},done=false;` +
+    `function go(){if(done)return;done=true;p.forEach(function(h){var l=d.createElement('link');l.rel='modulepreload';l.crossOrigin='';l.href=h;d.head.appendChild(l)});` +
+    `var e=d.createElement('script');e.type='module';e.crossOrigin='';e.src=s;d.body.appendChild(e)}` +
+    `var i=d.querySelector('img[fetchpriority="high"]');if(!i||i.complete){go();return}` +
+    `i.addEventListener('load',go);i.addEventListener('error',go);setTimeout(go,${HERO_WAIT_FALLBACK_MS})})();</script>`;
+
+  return html
+    .replace(MAIN_SCRIPT_RE, '')
+    .replace(MODULE_PRELOAD_RE, '')
+    .replace('</body>', `${loader}\n  </body>`);
+}
+
 async function main() {
   let template = await readFile(INDEX_HTML_PATH, 'utf-8');
 
@@ -122,9 +144,9 @@ async function main() {
     (heroImageOverride ? `window.__HERO_IMAGE__=${heroJson};` : '') +
     `</script>`;
 
-  const finalHtml = template
-    .replace('<!--ssr-outlet-->', html)
-    .replace('<!--ssr-state-->', stateScript);
+  const finalHtml = deferScriptsUntilHero(
+    template.replace('<!--ssr-outlet-->', html).replace('<!--ssr-state-->', stateScript)
+  );
 
   await writeFile(INDEX_HTML_PATH, finalHtml, 'utf-8');
   console.log('[prerender] dist/index.html updated with baked-in Homepage data.');
