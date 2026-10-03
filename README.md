@@ -1,6 +1,6 @@
 # Movie Explorer
 
-[![CI](https://github.com/Yusuf-98/Movie-App/actions/workflows/ci.yml/badge.svg)](https://github.com/Yusuf-98/Movie-App/actions/workflows/ci.yml)
+[![CI](https://github.com/Yusuf-98/Movie-Explorer-App/actions/workflows/ci.yml/badge.svg)](https://github.com/Yusuf-98/Movie-Explorer-App/actions/workflows/ci.yml)
 
 A movie discovery app built on the TMDB API: browse trending and newly released movies, search, open a movie's details (cast, trailer, similar movies) and keep a favorites list that persists across sessions.
 
@@ -58,8 +58,8 @@ Built with React, TypeScript and Vite. The home page is prerendered at build tim
 Requires Node.js 22 or newer.
 
 ```bash
-git clone https://github.com/Yusuf-98/Movie-App.git
-cd Movie-App
+git clone https://github.com/Yusuf-98/Movie-Explorer-App.git
+cd Movie-Explorer-App
 npm install
 cp .env.example .env
 ```
