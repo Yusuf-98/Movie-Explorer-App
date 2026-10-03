@@ -24,6 +24,7 @@ function renderToStringAllReady(element: React.ReactNode): Promise<string> {
     });
 
     const { pipe } = renderToPipeableStream(element, {
+      progressiveChunkSize: Number.MAX_SAFE_INTEGER,
       onAllReady() {
         pipe(writable);
         writable.on('finish', () => resolve(Buffer.concat(chunks).toString('utf-8')));
