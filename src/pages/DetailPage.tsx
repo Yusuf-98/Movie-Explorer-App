@@ -4,6 +4,7 @@ import { DetailSkeleton } from '@/components/movie/DetailSkeleton';
 import { useMovieDetails } from '@/hooks/useMovies';
 import { useMovieStore } from '@/store/movieStore';
 import { DetailError } from '@/components/movie/ErrorState';
+import { ApiError } from '@/lib/axios';
 import { MovieDetailHero } from '@/components/movie/MovieDetailHero';
 import { MovieOverview } from '@/components/movie/MovieOverview';
 import { CastSection } from '@/components/movie/CastSection';
@@ -16,7 +17,7 @@ export function MovieDetailPage() {
   const navigate = useNavigate();
   const movieId = Number(id);
 
-  const { data: movie, isLoading, isError } = useMovieDetails(movieId);
+  const { data: movie, isLoading, isError, error, refetch } = useMovieDetails(movieId);
   const { isFavorite, toggleFavorite } = useMovieStore();
 
   const [trailerOpen, setTrailerOpen] = useState(false);
@@ -55,7 +56,12 @@ export function MovieDetailPage() {
   }, []);
 
   if (isLoading) return <DetailSkeleton />;
-  if (isError || !movie) return <DetailError onBack={() => navigate('/')} />;
+  if (isError || !movie) {
+    const notFound = !isError || (error instanceof ApiError && error.status === 404);
+    return (
+      <DetailError notFound={notFound} onBack={() => navigate('/')} onRetry={() => refetch()} />
+    );
+  }
 
   const videos = movie.videos?.results ?? [];
   const cast = movie.credits?.cast ?? [];
