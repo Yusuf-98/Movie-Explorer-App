@@ -12,7 +12,7 @@ Built with React, TypeScript and Vite. The home page is prerendered at build tim
   <img src="docs/screenshots/home-hero.png" alt="Movie Explorer home page with hero banner" width="820">
 </p>
 
-[![Lighthouse](https://img.shields.io/badge/Lighthouse-97_mobile_%C2%B7_99_desktop-brightgreen?logo=lighthouse&logoColor=white)](#performance)
+[![Lighthouse](https://img.shields.io/badge/Lighthouse-99_mobile_%C2%B7_99_desktop-brightgreen?logo=lighthouse&logoColor=white)](#performance)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6-blue?logo=typescript)
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
@@ -103,29 +103,29 @@ GitHub Actions runs lint, type-check, tests and the production build on every pu
 
 ## Performance
 
-Lighthouse results for the [live site](https://movie-app-by-yusuf-ar.vercel.app/): the median of 10 mobile and 6 desktop runs on 4 October 2026 (Lighthouse 13.5.0).
+Lighthouse results for the [live site](https://movie-app-by-yusuf-ar.vercel.app/): the median of 10 mobile runs and a single desktop run, both on 5 October 2026 (Lighthouse 13.5.0).
 
 | | 📱 Mobile | 🖥️ Desktop |
 | --- | :---: | :---: |
-| **Performance** | **97** | **99** |
+| **Performance** | **99** | **99** |
 | **Accessibility** | **100** | **100** |
 | **Best practices** | **100** | **100** |
 | **SEO** | **100** | **100** |
 
-Mobile performance ranged from 86 to 99 across the 10 runs, with 9 of them at 93 or higher; desktop scored 99 or 100 in all 6.
+Mobile performance ranged from 94 to 99 across the 10 runs, with 8 of them at 99.
 
 ### Core metrics
 
 | Metric | 📱 Mobile | 🖥️ Desktop | Good if |
 | --- | :---: | :---: | :---: |
-| **First Contentful Paint** (first pixels) | 🟢 1.2 s | 🟢 0.4 s | ≤ 1.8 s |
-| **Largest Contentful Paint** (main content visible) | 🟢 2.3 s | 🟢 0.8 s | ≤ 2.5 s |
-| **Total Blocking Time** (page unresponsive) | 🟢 88 ms | 🟢 0 ms | ≤ 200 ms |
+| **First Contentful Paint** (first pixels) | 🟢 1.2 s | 🟢 0.5 s | ≤ 1.8 s |
+| **Largest Contentful Paint** (main content visible) | 🟢 1.8 s | 🟢 0.8 s | ≤ 2.5 s |
+| **Total Blocking Time** (page unresponsive) | 🟢 28 ms | 🟢 0 ms | ≤ 200 ms |
 | **Cumulative Layout Shift** (content jumping) | 🟢 0 | 🟢 0 | ≤ 0.1 |
-| **Speed Index** (how fast it fills in) | 🟢 2.0 s | 🟢 0.8 s | ≤ 3.4 s |
-| **Page weight** (home page, compressed) | 450 KiB | 504 KiB | |
+| **Speed Index** (how fast it fills in) | 🟢 2.5 s | 🟢 1.2 s | ≤ 3.4 s |
+| **Page weight** (home page, compressed) | 472 KiB | 546 KiB | |
 
-🟢 within Google's "good" range · figures are medians, scores rounded down
+🟢 within Google's "good" range · mobile figures are medians, desktop figures are from a single run
 
 ### What "mobile" means in this test
 
@@ -137,7 +137,7 @@ The mobile test does not simply run on a fast laptop. Lighthouse slows the machi
 
 The desktop test uses a 1350 × 940 px screen, 10 Mbps, 40 ms latency and no CPU slowdown.
 
-Run it yourself with [PageSpeed Insights](https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fmovie-app-by-yusuf-ar.vercel.app%2F&form_factor=mobile) or `npx lighthouse https://movie-app-by-yusuf-ar.vercel.app/ --form-factor=mobile`. A single run can move by a few points with network conditions, which is why the figures above are medians.
+Run it yourself with [PageSpeed Insights](https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fmovie-app-by-yusuf-ar.vercel.app%2F&form_factor=mobile) or `npx lighthouse https://movie-app-by-yusuf-ar.vercel.app/ --form-factor=mobile`. A single run can move by a few points with network conditions, which is why the mobile figures above are a median of 10 runs.
 
 ### How it stays fast
 
