@@ -25,6 +25,7 @@ Built with React, TypeScript and Vite. The home page is prerendered at build tim
 - **Search**: results update as you type (debounced), with a validation message for queries shorter than two characters
 - **Movie detail**: overview, rating, genres, cast and crew, similar movies, and the trailer in a modal
 - **Favorites**: add or remove a movie from any card; the list is kept in localStorage across sessions
+- **Error handling**: an unknown movie shows "Movie not found", a network or server failure shows "Couldn't load this movie" with a "Try again" button, and an error boundary replaces a crashed page with a themed fallback instead of a blank screen
 
 ## Screenshots
 
@@ -48,7 +49,7 @@ Built with React, TypeScript and Vite. The home page is prerendered at build tim
 - **Zustand** for favorites, persisted to localStorage
 - **React Router** for routing, with route-level code splitting
 - **Tailwind CSS v4** + **Radix UI** (shadcn/ui) for styling and accessible primitives
-- **Framer Motion** for animations, **Embla** for the trending carousel
+- **Framer Motion** for animations, **Embla** for the trending carousel, **Lucide** for icons
 - **Zod** + **React Hook Form** for search validation
 - **Axios** for the API client
 - **Vitest** + **React Testing Library** for tests, **GitHub Actions** for CI
@@ -167,7 +168,9 @@ Posters and backdrops are loaded from `VITE_TMDB_IMAGE_BASE_URL` at the size var
 ```
 scripts/              # Build step that prerenders the home page
 src/
+├── assets/           # Icons and logos
 ├── components/
+│   ├── ErrorBoundary.tsx  # Fallback for render errors
 │   ├── layout/       # Navbar, footer, search input
 │   ├── movie/        # Hero, carousel, cards, grids, detail sections, trailer modal
 │   └── ui/           # UI primitives (shadcn/ui on Radix)
@@ -179,6 +182,8 @@ src/
 ├── store/            # Zustand favorites store
 ├── test/             # Vitest setup
 ├── types/            # Shared types
+├── App.tsx           # Providers (query client, router, hero image override)
+├── AppShell.tsx      # Layout and animated routes
 ├── entry-server.tsx  # Server render entry used by the prerender step
 └── main.tsx          # Client entry that hydrates the prerendered page
 ```
